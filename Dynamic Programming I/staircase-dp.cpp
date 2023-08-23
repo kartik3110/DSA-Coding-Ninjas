@@ -2,7 +2,7 @@
 using namespace std;
 
 const long long int factor = 1000000007;
-
+// jitne tarike n-3 phonchne ke hain, unme sab me ek +3 krke n phonch jaege. to utne hi tarike hain
 int staircaseHelper(int n, int *arr)
 {
     for (int i = 4; i < n + 1; i++)

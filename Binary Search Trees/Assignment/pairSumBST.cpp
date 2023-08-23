@@ -2,6 +2,7 @@
 #include <bits/stdc++.h>
 #include "binaryTreeNode.cpp"
 using namespace std;
+// Pair Sum in BST using O(H) space
 
 //      5
 //  3       7

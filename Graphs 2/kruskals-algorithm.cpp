@@ -33,28 +33,28 @@ void Union(int x, int y, int *parents)
     parents[Find(x, parents)] = Find(y, parents);
 }
 
-Edge *kruskals(Edge *graphEdges, int v, int e)
+Edge *kruskals(Edge *graphEdges, int v, int e, int &MSTedgeCount)
 {
     // sort the graphEdges in increasing weights.
     sort(graphEdges, graphEdges + e, compareEdges);
     Edge *MstEdges = new Edge[v - 1];
-
     int *parents = new int[v];
+
     // make v different disjoint sets
     for (int i = 0; i < v; i++)
     {
         parents[i] = i;
     }
-    int totalEdges = 0, i = 0;
-    while (totalEdges < v - 1)
+    int i = 0;
+    while (MSTedgeCount < v - 1 && i < e)
     {
         int v1 = graphEdges[i].start;
         int v2 = graphEdges[i].end;
-        if (parents[v1] != parents[v2]) // they belong to disjoint sets
+        if (Find(v1, parents) != Find(v2, parents)) // they belong to disjoint sets
         {
             Union(v1, v2, parents);
-            MstEdges[i] = graphEdges[i];
-            totalEdges++;
+            MstEdges[MSTedgeCount] = graphEdges[i];
+            MSTedgeCount++;
         }
         i++;
     }
@@ -65,7 +65,7 @@ int main()
 {
     int v, e;
     cin >> v >> e;
-    // GraphEdges array contains all the edges in the initial graph
+    // GraphEdges array is the adjacency matrix
     Edge *graphEdges = new Edge[e];
     for (int i = 0; i < e; i++)
     {
@@ -75,8 +75,10 @@ int main()
         graphEdges[i].end = e;
         graphEdges[i].weight = w;
     }
-    Edge *MstEdges = kruskals(graphEdges, v, e);
-    for (int i = 0; i < v - 1; i++)
+    // return an array of edges which are part of MST
+    int MSTedgeCount = 0;
+    Edge *MstEdges = kruskals(graphEdges, v, e, MSTedgeCount);
+    for (int i = 0; i < MSTedgeCount; i++)
     {
         MstEdges[i].printEdge();
     }
